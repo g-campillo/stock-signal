@@ -18,7 +18,7 @@ def alert():
     alpaca: AlpacaService = AlpacaService()
     alpaca.execute_trade(
         ticker=order.ticker,
-        qty=order.position_size,
+        qty=order.contracts,
         side=order.action,
         time_in_force=TimeInForce.GTC
     )
