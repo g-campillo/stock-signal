@@ -14,6 +14,7 @@ TradingViewBlueprint = Blueprint("example_blueprint", __name__)
 @TradingViewBlueprint.route("/alert", methods=["POST"])
 def alert():
     order: TradingViewOrder = TradingViewOrder(**request.get_json())
+    print(f"Got signal: {order}")
     alpaca: AlpacaService = AlpacaService()
     alpaca.execute_trade(
         ticker=order.ticker,
