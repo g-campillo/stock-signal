@@ -1,1 +1,1 @@
-from .trading_view_order import TradingViewOrder
+from .tradingview_order import TradingViewOrder

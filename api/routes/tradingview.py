@@ -1,5 +1,5 @@
 # Built-in Modules (python)
-from api.models.trading_view_order import TradingViewOrder
+from api.models.tradingview_order import TradingViewOrder
 
 # Installed Modules (pip)
 from flask import (
