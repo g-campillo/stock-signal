@@ -12,6 +12,5 @@ from flask import (
 app = Flask(__name__)
 app.register_blueprint(TradingViewBlueprint, url_prefix="/tradingview")
 
-
 if __name__ == "__main__":
     app.run()
