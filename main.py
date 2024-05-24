@@ -8,4 +8,4 @@ def tradingview_hook():
 
 
 if __name__ == "__main__":
-    app.run(port=8642, debug=True)
+    app.run()
