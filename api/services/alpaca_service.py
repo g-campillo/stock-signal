@@ -29,13 +29,15 @@ class AlpacaService:
     def execute_trade(self, ticker: str, qty: float, side: TradingViewAction, time_in_force: TimeInForce) -> None:
         try:
             asset: AlpacaAsset = self.get_asset(ticker=ticker)
+            qty = self._calculate_qty(ticker=ticker, qty=qty, action=side, asset=asset)
             order: MarketOrderRequest = MarketOrderRequest(
                 symbol=get_tradingview_ticker(ticker=ticker, action=side),
-                qty=self._calculate_qty(ticker=ticker, qty=qty, action=side, asset=asset),
+                qty=qty,
                 side=self._get_order_side(action=side),
                 time_in_force=time_in_force
             )
             self._client.submit_order(order_data=order)
+            print(f"Executed {side} on {ticker} (qty={qty})")
         except Exception as e:
             log.error(f"error placing {side} order on {ticker}: {e}")
     
