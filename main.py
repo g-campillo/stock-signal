@@ -4,8 +4,8 @@ app = Flask(__name__)
 
 @app.route("/tradingview/webhook")
 def tradingview_hook():
-    print("got data")
+    return {}, 200
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8642, debug=True)
