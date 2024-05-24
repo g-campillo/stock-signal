@@ -1,15 +1,16 @@
+# Built-in Modules (python)
+
+# Custom Modules
+from api.routes import TradingViewBlueprint
+
+# Installed Modules (pip)
 from flask import (
+    request,
     Flask,
-    request
 )
 
 app = Flask(__name__)
-
-@app.route("/tradingview/webhook", methods=["POST"])
-def tradingview_hook():
-    data = request.get_json()
-    print(data)
-    return {}, 200
+app.register_blueprint(TradingViewBlueprint, url_prefix="/tradingview")
 
 
 if __name__ == "__main__":
