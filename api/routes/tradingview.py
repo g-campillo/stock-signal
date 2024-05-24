@@ -11,7 +11,6 @@ TradingViewBlueprint = Blueprint("example_blueprint", __name__)
 
 @TradingViewBlueprint.route("/alert", methods=["POST"])
 def alert():
-    print(request.get_json())
     order: TradingViewOrder = TradingViewOrder(**request.get_json())
     print(order)
     return {}, 200
