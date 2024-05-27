@@ -3,7 +3,6 @@ from os import getenv
 from typing import Optional
 
 from dotenv import load_dotenv
-import alpaca_trade_api as old_alpaca_api
 from alpaca.common.exceptions import APIError
 from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import MarketOrderRequest, GetAssetsRequest
