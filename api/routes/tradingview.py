@@ -16,10 +16,5 @@ def alert():
     order: TradingViewOrder = TradingViewOrder(**request.get_json())
     print(f"Got signal: {order}")
     alpaca: AlpacaService = AlpacaService()
-    alpaca.execute_trade(
-        ticker=order.ticker,
-        qty=order.contracts,
-        side=order.action,
-        time_in_force=TimeInForce.GTC
-    )
+    alpaca.execute_trade(tv_order=order)
     return {}, 200
