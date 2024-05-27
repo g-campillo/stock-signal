@@ -13,7 +13,6 @@ from alpaca.trading.models import TradeAccount as AlpacaAccount, Asset as Alpaca
 from api.external import AlpacaDataAPI
 from api.models import TradingViewOrder, AlpacaQuote
 from api.enums import TradingViewAction
-from api.tickers import get_tradingview_ticker
 from api.exceptions import BuyingPowerException, AssetNotTradeable, NoOpenPositions
 
 
@@ -33,10 +32,11 @@ class AlpacaService:
     
     def execute_trade(self, tv_order: TradingViewOrder) -> None:
         try:
+            account: AlpacaAccount = self.get_account_info()
             position: AlpacaPosition = self.get_position(ticker=tv_order.ticker)
             quote: AlpacaQuote = self._data_api.get_price(equity=tv_order.equity.to_str(), tickers=[tv_order.alpaca_price_ticker]).get(tv_order.alpaca_price_ticker)
             asset: AlpacaAsset = self.get_asset(ticker=tv_order.ticker)
-            qty = self._calculate_qty(order=tv_order, asset=asset, position=position, quote=quote)
+            qty = self._calculate_qty(order=tv_order, asset=asset, position=position, quote=quote, account=account)
             order: MarketOrderRequest = self.create_market_order(ticker=tv_order.ticker, qty=qty, side=self._get_order_side(tv_order.action), time_in_force=TimeInForce.GTC)
             self._client.submit_order(order_data=order)
             print(f"Executed {tv_order.action} on {tv_order.ticker} (qty={qty})")
@@ -78,12 +78,15 @@ class AlpacaService:
         except Exception as e:
             log.error(f"unexpected error getting position for {ticker}: {e}")
 
-    def _calculate_qty(self, order: TradingViewOrder, asset: AlpacaAsset, position: AlpacaPosition, quote: AlpacaQuote) -> float:
+    def _calculate_qty(self, order: TradingViewOrder, asset: AlpacaAsset, position: AlpacaPosition, quote: AlpacaQuote, account: AlpacaAccount) -> float:
         if not asset.tradable or asset.status != AlpacaAssetStatus.ACTIVE:
             raise AssetNotTradeable(f"{order.ticker} is not a tradeable or is not active asset (tradeable={asset.tradable} status={asset.status})")
 
         if order.action == TradingViewAction.SELL and position is None:
             raise NoOpenPositions(f"Cannot sell {order.ticker} as there are no open positions")
+        
+        if order.action == TradingViewAction.BUY and float(account.buying_power) <= order.buy_sell_amount:
+            raise BuyingPowerException(f"Cannot buy {order.ticker} as there is not sufficient buying power: {account.buying_power}")
 
         if order.action == TradingViewAction.SELL:
             return min(order.buy_sell_amount/quote.bid_price, float(position.qty))
