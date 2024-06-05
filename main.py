@@ -10,10 +10,15 @@ from flask import (
     Flask,
 )
 
+from api.services import CoinbaseService
 
-log = logging.getLogger(__name__)
-app = Flask(__name__)
-app.register_blueprint(TradingViewBlueprint, url_prefix="/tradingview")
+# log = logging.getLogger(__name__)
+# app = Flask(__name__)
+# app.register_blueprint(TradingViewBlueprint, url_prefix="/tradingview")
 
 if __name__ == "__main__":
-    app.run()
+    # app.run()
+    cb: CoinbaseService = CoinbaseService()
+    # print(cb.get_bid_ask(ticker="BTC-USD"))
+    # print(cb.get_account())
+    cb.submit_order()
