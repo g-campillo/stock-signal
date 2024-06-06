@@ -30,7 +30,6 @@ class CoinbaseService:
     def submit_order(self, order: TradingViewOrder) -> None:
         log.info(f"Creating {order.action} for {order.asset}")
         account: CoinbaseAccount = self.get_account()
-        return
         body: dict = self._build_order_data(order=order, account=account)
         res: Response = self._post_request(sub_path="brokerage/orders", body=json.dumps(body))
 
