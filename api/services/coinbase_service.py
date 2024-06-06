@@ -124,14 +124,8 @@ class CoinbaseService:
                 log.error(f"Cannot sell {order.asset} as there are no holdings")
                 raise NoOpenPositions(f"Cannot sell {order.asset} as there are now open positions or the asset {order.asset} could not be found")
             
-            qty: float = order.buy_sell_amount / cb_price.sell
-
-            if qty > holding.total_balance_crypto:
-                log.debug(f"Selling {holding.total_balance_crypto:.8f} of {order.asset}")
-                return holding.total_balance_crypto
-            
-            log.debug(f"Selling {qty:.8f} of {order.asset}")
-            return qty
+            log.debug(f"Selling {holding.total_balance_crypto:.8f} of {order.asset}")
+            return holding.total_balance_crypto
 
     def _build_order_data(self, order: TradingViewOrder, account: CoinbaseAccount) -> dict:
         data: dict =  {
