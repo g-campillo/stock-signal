@@ -1,1 +1,0 @@
-from .tickers import TICKERS, get_tradingview_ticker

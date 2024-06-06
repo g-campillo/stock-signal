@@ -1,9 +1,13 @@
 alpaca-py==0.21.1
 annotated-types==0.7.0
+backoff==2.2.1
 blinker==1.8.2
 certifi==2024.2.2
+cffi==1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
+coinbase-advanced-py==1.4.1
+cryptography==42.0.8
 Flask==3.0.3
 gunicorn==22.0.0
 idna==3.7
@@ -14,10 +18,13 @@ msgpack==1.0.8
 numpy==1.26.4
 packaging==24.0
 pandas==2.2.2
+pycparser==2.22
 pydantic==2.7.1
 pydantic_core==2.18.2
+PyJWT==2.8.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
+python-json-logger==2.0.7
 pytz==2024.1
 requests==2.32.2
 six==1.16.0

@@ -1,24 +1,22 @@
-# Built-in Modules (python)
-import logging
 
 # Custom Modules
+from log import setup_logging
+setup_logging()
+
 from api.routes import TradingViewBlueprint
 
 # Installed Modules (pip)
 from flask import (
-    request,
     Flask,
 )
 
-from api.services import CoinbaseService
+import logging
 
-# log = logging.getLogger(__name__)
-# app = Flask(__name__)
-# app.register_blueprint(TradingViewBlueprint, url_prefix="/tradingview")
+logger = logging.getLogger(__name__)
+
+
+app = Flask(__name__)
+app.register_blueprint(TradingViewBlueprint, url_prefix="/tradingview")
 
 if __name__ == "__main__":
-    # app.run()
-    cb: CoinbaseService = CoinbaseService()
-    # print(cb.get_bid_ask(ticker="BTC-USD"))
-    # print(cb.get_account())
-    cb.submit_order()
+    app.run(threaded=True)
