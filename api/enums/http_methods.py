@@ -4,7 +4,7 @@ from .base import BaseEnum
 
 class HTTPMethods(BaseEnum, Enum):
     GET = auto()
-    POST = auto
+    POST = auto()
 
     @classmethod
     def is_success(cls, code: int):
